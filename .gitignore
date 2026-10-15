@@ -1,0 +1,15 @@
+# Large binaries: kept on disk and inside the lbornia/demo-imx95 images on Docker Hub
+demo-imx95.tar
+*.mp4
+*.tflite
+app/benchmark_model
+app/yolov8n_saved_model/saved_model.pb
+app/yolov8n_saved_model/variables/
+
+# Host-side dev environment and sysroot
+.venv/
+usr/
+
+# Python venv baked into the image, and caches
+app/.venv/
+__pycache__/

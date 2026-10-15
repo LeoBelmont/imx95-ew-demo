@@ -1,0 +1,89 @@
+<CTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>YOLOv8 Frames</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    canvas {
+      background-color: #000;
+      max-width: 100vw;
+      max-height: 100vh;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="videoCanvas"></canvas>
+
+<script>
+const canvas = document.getElementById('videoCanvas');
+const ctx = canvas.getContext('2d');
+
+const DATA_WIDTH = 640;
+const DATA_HEIGHT = 480;
+
+// Make canvas match data resolution (scale via CSS)
+canvas.width = DATA_WIDTH;
+canvas.height = DATA_HEIGHT;
+
+const classColors = [
+  '#e6194b','#3cb44b','#ffe119','#4363d8','#f58231',
+  '#911eb4','#46f0f0','#f032e6','#bcf60c','#fabebe'
+];
+
+const labels = [
+  "person","bicycle","car","motorcycle","airplane","bus","train","truck","boat","traffic light"
+  // ... add more if your model uses them
+];
+
+const ws = new WebSocket(
+  (location.protocol === 'https:' ? 'wss' : 'ws') + '://' + location.hostname + ':6789'
+);
+
+ws.onopen = () => console.log('WebSocket connected');
+ws.onclose = () => console.log('WebSocket disconnected');
+
+ws.onmessage = e => {
+  const data = JSON.parse(e.data);
+
+  // Data should include raw frame and boxes
+  if (!data.frame) return;
+
+  const img = new Image();
+  img.src = 'data:image/jpeg;base64,' + data.frame;
+  img.onload = () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+    // Draw boxes if any
+    if (data.boxes) {
+      data.boxes.forEach(box => {
+        const x = box.left;
+        const y = box.top;
+        const w = box.right - box.left;
+        const h = box.bottom - box.top;
+        const color = classColors[box.class % classColors.length] || '#FF0000';
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, y, w, h);
+
+        const label = `${labels[box.class] || 'Class ' + box.class} ${(box.score*100).toFixed(1)}%`;
+        ctx.font = '16px Arial';
+        ctx.fillStyle = color;
+        ctx.fillText(label, x + 2, y - 4);
+      });
+    }
+  };
+};
+</script>
+</body>
+</html>
+
