@@ -6,7 +6,8 @@ FROM lbornia/demo-imx95:base
 
 WORKDIR /app
 
-# Only the files that differ from the base image; app/ mirrors /app in full.
+# Only the files that differ from the base image; the rest of /app (venv,
+# model, old experiments) comes from lbornia/demo-imx95:base.
 COPY app/main-f.py app/entrypoint.sh /app/
 COPY app/videos/didi.mp4 /app/videos/
 
