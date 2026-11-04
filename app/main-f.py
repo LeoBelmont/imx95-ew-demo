@@ -16,7 +16,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 MODEL_PATH = "yolov8n_saved_model/my_model_optimized.tflite"
-VIDEO_PATH = "videos/didi.mp4"
+VIDEO_PATH = "videos/sample.mp4"
 USE_HW_ACCELERATED_INFERENCE = True
 MINIMUM_SCORE = 0.4
 FRAMERATE = 30
@@ -34,7 +34,7 @@ CLASS_CONFIG = {
 FONT_PATH = "/usr/share/fonts/ttf/LiberationSans-Bold.ttf"
 LABEL_FONT = ImageFont.truetype(FONT_PATH, 18)
 
-# Inference time goes in the empty white box at the bottom-left of didi.mp4
+# Inference time goes in the empty white box at the bottom-left of sample.mp4
 # (y 668–720, at least 233 px wide), in the same blue as the video's header.
 INF_POS = (14, 694)           # left edge, vertical centre
 INF_MAX_WIDTH = 210

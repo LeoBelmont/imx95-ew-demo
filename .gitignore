@@ -2,6 +2,9 @@
 demo-imx95.tar
 *.mp4
 *.tflite
+# ...except the video and model the demo runs, needed to build the image
+!app/videos/sample.mp4
+!app/yolov8n_saved_model/my_model_optimized.tflite
 app/benchmark_model
 app/yolov8n_saved_model/saved_model.pb
 app/yolov8n_saved_model/variables/

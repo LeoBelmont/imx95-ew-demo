@@ -6,9 +6,10 @@ FROM lbornia/demo-imx95:base
 
 WORKDIR /app
 
-# Only the files that differ from the base image; the rest of /app (venv,
-# model, old experiments) comes from lbornia/demo-imx95:base.
+# The demo's own files; the rest of /app (Python venv, old experiments)
+# comes from lbornia/demo-imx95:base.
 COPY app/main-f.py app/entrypoint.sh /app/
-COPY app/videos/didi.mp4 /app/videos/
+COPY app/videos/sample.mp4 /app/videos/
+COPY app/yolov8n_saved_model/my_model_optimized.tflite /app/yolov8n_saved_model/
 
 CMD ["bash", "/app/entrypoint.sh"]

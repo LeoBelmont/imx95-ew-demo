@@ -1,5 +1,6 @@
-# Keep the build context small: only app/ is needed (base layers come from demo-imx95:gi)
+# Keep the build context small: only app/ is needed (base layers come from lbornia/demo-imx95:base)
 *
 !app/main-f.py
 !app/entrypoint.sh
-!app/videos/didi.mp4
+!app/videos/sample.mp4
+!app/yolov8n_saved_model/my_model_optimized.tflite
